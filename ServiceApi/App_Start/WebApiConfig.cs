@@ -1,0 +1,38 @@
+﻿using Newtonsoft.Json.Serialization;
+using System.Web.Http;
+using System.Web.Http.Cors;
+
+namespace ServiceApi
+{
+    public static class WebApiConfig
+    {
+        public static void Register(HttpConfiguration config)
+        {
+            // Serviços e configuração da API da Web
+
+            var cors = new EnableCorsAttribute("*", "*", "*");
+
+            var formatters = GlobalConfiguration.Configuration.Formatters;
+            var jsonFormatter = formatters.JsonFormatter;
+            var settings = jsonFormatter.SerializerSettings;
+
+            jsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            settings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+
+            // Rotas da API da Web
+            config.MapHttpAttributeRoutes();
+            config.EnableCors(cors);
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+      ;
+        }
+    }
+}
