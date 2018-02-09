@@ -48,7 +48,7 @@ namespace ServiceApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.PaymentRequired);
             }
 
             if (usuarios.IdUsuario == 0)
