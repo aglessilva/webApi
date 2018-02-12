@@ -185,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\ServicesApiTreino.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL.Api\BLL.Api.csproj">

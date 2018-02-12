@@ -45,9 +45,9 @@ namespace DAL.Api
                 db.Entry(endereco).State = EntityState.Modified;
                 retorno = db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateException ex)
             {
-                    throw;   
+                    throw ex;   
             }
 
             return retorno;
@@ -60,10 +60,9 @@ namespace DAL.Api
                 db.Enderecos.Add(endereco);
                 return db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -75,10 +74,9 @@ namespace DAL.Api
                 db.Enderecos.Remove(endereco);
                 return db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 

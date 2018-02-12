@@ -1,5 +1,6 @@
 ﻿using BLL.Api;
 using DTO.Api;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -34,15 +35,15 @@ namespace ServiceApi.Controllers
         // PUT: api/Endereco/5
         [ResponseType(typeof(void))]
         
-        public IHttpActionResult PutEndereco(Enderecos endereco)
+        public HttpResponseMessage PutEndereco(Enderecos endereco)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
-            business.UpdateEndereco(endereco);
-            return StatusCode(HttpStatusCode.OK);
+            int ret = business.UpdateEndereco(endereco);
+            return ret == 1 ?  Request.CreateResponse(HttpStatusCode.OK, ret) :  Request.CreateResponse(HttpStatusCode.BadRequest); 
         }
 
         // POST: api/Endereco
@@ -64,8 +65,15 @@ namespace ServiceApi.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteEndereco(int id)
         {
-            int ret = business.DeleteEndereco(id);
-            return Request.CreateResponse(HttpStatusCode.OK,ret); 
+            try
+            {
+                int ret = business.DeleteEndereco(id);
+                return Request.CreateResponse(HttpStatusCode.OK,ret); 
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message); 
+            }
         }
     }
 }
